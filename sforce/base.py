@@ -12,14 +12,14 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-# Written by: David Lanstein ( lanstein yahoo com )
+# Written by: David Lanstein ( dlanstein gmail com )
 
 import string
 import sys
 import os.path
 
 from suds.client import Client
-
+from sudsprox import WellBehavedHttpTransport
 try:
   # suds 0.3.8 and prior
   from suds.transport.cache import FileCache
@@ -77,7 +77,7 @@ class SforceBaseClient(object):
     else:
       cache = None
     
-    self._sforce = Client(wsdl, cache = cache)
+    self._sforce = Client(wsdl, cache = cache, transport=WellBehavedHttpTransport())
 
     # Set HTTP headers
     headers = {'User-Agent': 'Salesforce/' + self._product + '/' + '.'.join(str(x) for x in self._version)}
